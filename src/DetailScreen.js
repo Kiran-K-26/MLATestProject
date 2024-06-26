@@ -45,11 +45,12 @@ import { AppContext } from './AppContext';
 const WalkthroughableText = walkthroughable(Text);
 
 const DetailScreen = () => {
-  const { start, copilotEvents, currentStep } = useCopilot();
+  const { start, copilotEvents, currentStep, stop } = useCopilot();
   const { updateCurrentStep } = useContext(AppContext);
   const appContext = useContext(AppContext);
 
   useEffect(() => {
+    stop();
     copilotEvents.on('stepChange', (step) => {
       console.log('Step changed', step);
       // updateCurrentStep(step);
@@ -62,17 +63,21 @@ const DetailScreen = () => {
   }, [copilotEvents]);
 
   useEffect(() => {
+    stop();
     console.log('Current step:', currentStep); // Check currentStep in console
   }, [currentStep]);
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <CopilotStep text="This is the detail screen" order={2} name="detail">
+      <CopilotStep text="This is the detail screen" order={1} name="home">
         <WalkthroughableText style={{ fontSize: 24 }}>Detail Screen</WalkthroughableText>
       </CopilotStep>
       <Button
         title="Start Tour"
-        onPress={() => start()}
+        onPress={() => {
+          stop();
+          start();
+        }}
       />
     </View>
   );

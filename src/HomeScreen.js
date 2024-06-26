@@ -53,7 +53,6 @@ import { View, Text, Button } from 'react-native';
 import { useCopilot, CopilotStep, walkthroughable } from 'react-native-copilot';
 import { useNavigation } from '@react-navigation/native';
 import { AppContext } from './AppContext';
-import { Stop } from 'react-native-svg';
 
 const WalkthroughableText = walkthroughable(Text);
 
@@ -95,8 +94,9 @@ const HomeScreen = () => {
       <Button
         title="Go to Detail"
         onPress={() => {
-          appContext.updateCopilotSteps([]);
-          navigation.push('Details')
+          stop();
+          appContext.updateCurrentStep(null);
+          navigation.navigate('Details')
         }}
       />
       <Button
